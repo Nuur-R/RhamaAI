@@ -2,7 +2,7 @@ import asyncio
 from dotenv import load_dotenv
 from livekit.agents import AutoSubscribe, JobContext, WorkerOptions, cli, llm
 from livekit.agents.voice_assistant import VoiceAssistant
-from livekit.plugins import openai, silero, deepgram, elevenlabs
+from livekit.plugins import openai, silero, deepgram, elevenlabs, cartesia
 from api import AssistantFnc
 
 load_dotenv()
@@ -40,8 +40,8 @@ async def entrypoint(ctx: JobContext):
     assistant = VoiceAssistant(
         vad=silero.VAD.load(),
         stt=deepgram.STT(),
-        llm=openai.LLM(),
-        tts=openai.TTS(),
+        llm=openai.LLM(model="gpt-4o-mini"),
+        tts=cartesia.TTS(model="sonic-english"),
         chat_ctx=initial_ctx,
         fnc_ctx=fnc_ctx,
     )
